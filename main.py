@@ -18,6 +18,7 @@ nb_clusters = 0
 x = 0
 y = 0
 z = 0
+scaled = ""
 
 while(inp.lower() != "q"):
     
@@ -26,7 +27,7 @@ while(inp.lower() != "q"):
     inp = input("Que faire ? ")
     
     if(inp.lower() == "p"): #Demander l'affichage
-        while(inp != "w" and inp.lower() != "r" and inp.lower() != "q"):
+        while(inp.lower() != "w" and inp.lower() != "r" and inp.lower() != "q"):
             
             #Vin rouge ou vin blanc ? Pour moi ce sera du rouge :D
             print("\n\tRed wine \t\t: r\n" + 
@@ -53,8 +54,14 @@ while(inp.lower() != "q"):
                 while(int(nb_clusters) <= 0): #On choisit le nombre de clusters
                     nb_clusters = input("\n\nCombien de clusters ? ")
                     
+                while(scaled.lower() != "y" and scaled.lower() != "n"):
+                    scaled = input("\nMise a l'echelle (y/n) ? ")
+                    
                 #On charge les données, et on affiche le résultat dans le navigateur
-                data = load_data("winequality-global.csv", inp,int(nb_clusters))
+                data = load_data("winequality-global.csv", 
+                                 wineType=inp,
+                                 nb_clusters=int(nb_clusters),
+                                 scaled=scaled)
                 interactive_plot(data,liste_type[x],liste_type[y],liste_type[z])
                 
         x = 0
@@ -62,3 +69,4 @@ while(inp.lower() != "q"):
         z = 0
         nb_clusters = 0
         inp = ""
+        scaled = ""
