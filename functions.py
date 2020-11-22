@@ -3,6 +3,12 @@
 Created on Tue Nov 17 21:21:34 2020
 
 @author: Alexandre
+
+PCA :
+    
+    - Mettre à l'échelle les données (0 à 100 dans notre cas)
+    - Appliquer l'algorithme PCA
+
 """
 
 # Import dependencies
@@ -123,7 +129,7 @@ def load_data(path, wineType="w", nb_clusters=4, scaled="n"):
     return df
 
 
-def load_data_PCA(path, wineType="w", nb_clusters=4, scaled="n"):
+def load_data_PCA(path, wineType="w", nb_clusters=4):
     fichier = open(path, "r", encoding="utf-8")
     liste_blanc = []
     liste_rouge = []
@@ -169,15 +175,13 @@ def load_data_PCA(path, wineType="w", nb_clusters=4, scaled="n"):
     elif(wineType == "r"):
         l = l_points_rouge
 
-    if(scaled == "y"): # Normalisation
-        l_scaled = [pca.fit_transform(scaler.fit_transform(e)) for e in l]
-    elif(scaled == "n"):
-        l_scaled = l  # On ne normalise pas
+    # Normalisation
+    l_scaled = [pca.fit_transform(scaler.fit_transform(e)) for e in l]
+    
 
     pca_variance = pca.explained_variance_
 
-    labels = KMeans(n_clusters=nb_clusters, random_state=0).fit(
-        np.array(l_scaled)).labels_
+    labels = KMeans(n_clusters=nb_clusters, random_state=0).fit(np.array(l_scaled)).labels_
     data = {
         liste_type[1]: [e[0] for e in l_scaled],
         liste_type[2]: [e[1] for e in l_scaled],

@@ -54,15 +54,27 @@ while(inp.lower() != "q"):
                 while(int(nb_clusters) <= 0): #On choisit le nombre de clusters
                     nb_clusters = input("\n\nCombien de clusters ? ")
                     
-                while(scaled.lower() != "y" and scaled.lower() != "n"):
-                    scaled = input("\nMise a l'echelle (y/n) ? ")
+                while(scaled.lower() != "y" and scaled.lower() != "n" and scaled.lower() != "pca" and scaled.lower() != "q"):
+                    scaled = input("\nMise a l'echelle (y/n/pca) ? ")
                     
-                #On charge les données, et on affiche le résultat dans le navigateur
-                data = load_data("winequality-global.csv", 
-                                 wineType=inp,
-                                 nb_clusters=int(nb_clusters),
-                                 scaled=scaled)
-                interactive_plot(data,liste_type[x],liste_type[y],liste_type[z])
+                if(scaled.lower() == "pca"):
+                    #On charge les données, et on affiche le résultat dans le navigateur
+                    data = load_data_PCA("winequality-global.csv",
+                                         wineType=inp,
+                                         nb_clusters=int(nb_clusters))
+                    
+                    
+                    interactive_plot(data,liste_type[x],liste_type[y],liste_type[z])
+                    
+                elif(scaled.lower() == "y" or scaled.lower() == "n"):
+                    #On charge les données, et on affiche le résultat dans le navigateur
+                    data = load_data("winequality-global.csv", 
+                                     wineType=inp,
+                                     nb_clusters=int(nb_clusters),
+                                     scaled=scaled)
+                    
+                    
+                    interactive_plot(data,liste_type[x],liste_type[y],liste_type[z])
                 
         x = 0
         y = 0
